@@ -8,6 +8,7 @@ from torch.autograd import Variable
 import torch
 from config import Config
 from model import PeleeNet
+from tensorboardX import SummaryWriter
 
 
 def train():
@@ -57,6 +58,9 @@ def train():
             # Save best loss and best acc
             if best_loss > float(loss):
                 best_loss = float(loss)
+            # Add loss to summary
+            writer.add_scalar("scalar/loss", float(loss), epoch*conf.BATCH_SIZE+batch)
+
             print("==> Training epoch {}, batch {}, loss {:.4f}, best loss {:.4f}".
                   format(epoch, batch, float(loss), best_loss))
 
@@ -69,7 +73,12 @@ if __name__ == "__main__":
                            batch_size=conf.BATCH_SIZE,
                            shuffle=True,
                            num_workers=2)
+    # Initialize SummaryWriter
+    writer = SummaryWriter(log_dir=conf.SOURCE_DIR_PATH["SUMMARY_DIR"])
+
     # Begin to train
     print("==> Begin to train")
     train()
 
+    # close the summary writer
+    writer.close()

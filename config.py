@@ -14,7 +14,8 @@ class Config():
         self.RAW_TEST_DATA = "./data/cards_250_7/cards_for_eval"
         # define the source path
         self.SOURCE_DIR_PATH = {
-            "MODEL_DIR" : "./source/models/"
+            "MODEL_DIR" : "./source/models/",
+            "SUMMARY_DIR" : "./source/summary/"
         }
         # define the file path
         self.LABEL_TO_NAME_PATH = "./source/label_to_name_dict.pkl"
