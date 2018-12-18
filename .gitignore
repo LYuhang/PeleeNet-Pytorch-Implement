@@ -1,0 +1,6 @@
+__pycache__/
+.idea/
+data/
+model/__pycache__/
+source/
+JustForTest.py
