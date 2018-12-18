@@ -24,7 +24,7 @@ class Config():
         # check the path
         self.check_dir()
 
-        # define the param of the picture
+        # define the param of the training
         self.WIDTH = 488
         self.HEIGHT = 488
         self.CHANNEL = 3
@@ -32,6 +32,7 @@ class Config():
         self.BATCH_SIZE = 30
         self.NUM_EPOCHS = 500
         self.LEARNING_RATE = 0.001
+        self.VALPERBATCH = 2
 
     def check_dir(self):
         '''

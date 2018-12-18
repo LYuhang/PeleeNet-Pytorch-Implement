@@ -122,10 +122,10 @@ if __name__ == "__main__":
     conf = Config()
 
     # generate image path file
-    #gen_image_path_file(conf.RAW_TRAIN_DATA)
+    gen_image_path_file(conf.RAW_TEST_DATA)
 
     # generate image path and label file
-    gen_image_path_file(conf.RAW_TRAIN_DATA, pickle.load(open(conf.NAME_TO_LABEL_PATH, "rb")))
+    gen_image_path_file(conf.RAW_TEST_DATA, pickle.load(open(conf.NAME_TO_LABEL_PATH, "rb")))
 
     # image augmentation
     #all_data_augment(conf.RAW_TRAIN_DATA)
