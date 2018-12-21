@@ -3,6 +3,9 @@ This is a implement of PeleeNet with Pytorch.The reference [artical](https://arx
 This has not been tested yet, and the origin implement with Caffe is [here](https://github.com/Robert-JunWang/Pelee).
 
 + Operating environment
+
+  + Windows10 64 bit
+
   + Python3.6
   + Pytorch1.0.0
   + Pillow5.3.0

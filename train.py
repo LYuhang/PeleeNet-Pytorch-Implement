@@ -31,9 +31,41 @@ def get_right_wrong_num(pred, Y):
     wrong = batch_size - right
     return right, wrong
 
+def weight_init(m):
+    '''
+    This function is used to initialize the model weight,
+    :param m: The input module
+    :return: None
+    '''
+    if isinstance(m, nn.Conv2d):  # Init the nn.Conv2d weight
+        nn.init.xavier_normal_(m.weight.data,
+                               nn.init.calculate_gain('relu'))
+        if m.bias is not None:  # Init the bias
+            nn.init.constant_(m.bias.data, 0.0)
+    elif isinstance(m, nn.BatchNorm2d):
+        nn.init.constant_(m.weight.data, 1.0)
+        nn.init.constant_(m.bias.data, 0.0)
+    elif isinstance(m, nn.Linear):
+        nn.init.normal_(m.weight.data,
+                        mean=0,
+                        std=0.01)
+
+def adjust_learning_rate(optimizer, epoch, init_lr):
+    '''
+    This is used to adjust learning rate during training
+    :param optimizer: Net optimizer
+    :param epoch: The num of epoches trained
+    :param init_lr: The initial learning rate
+    :return: None
+    '''
+    lr = init_lr * (0.1 ** (epoch // 50))
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+
 def train():
     # Initialize the PeleeNet
     net = PeleeNet.PeleeNet(conf)
+    net.apply(weight_init)
 
     # Set best loss and best acc
     best_loss = float('inf')
@@ -53,6 +85,8 @@ def train():
 
     for epoch in range(conf.NUM_EPOCHS):
         print("############## Training epoch {}#############".format(epoch))
+        # Adjust the learning rate according to epoches
+        adjust_learning_rate(optimizer, epoch, conf.LEARNING_RATE)
         for batch, (X, Y) in enumerate(imgLoader):
             # Set net as training mode
             net.train()
@@ -123,7 +157,7 @@ if __name__ == "__main__":
     imgLoader = DataLoader(dataset(path=conf.RAW_TRAIN_DATA),
                            batch_size=conf.BATCH_SIZE,
                            shuffle=True,
-                           num_workers=2)
+                           num_workers=1)
     evalLoader = DataLoader(dataset(path=conf.RAW_TEST_DATA),
                             batch_size=100,
                             shuffle=False,
